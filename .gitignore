@@ -1,1 +1,8 @@
 logs/
+releases/
+__pycache__/
+*.pyc
+*.srs
+*.json
+*.yaml
+*.mrs

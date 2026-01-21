@@ -70,6 +70,10 @@ def extract_payload_from_sb_json(sb_json):
 def main():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
+        
+    yaml_dir = os.path.join(OUTPUT_DIR, "yaml")
+    if not os.path.exists(yaml_dir):
+        os.makedirs(yaml_dir)
 
     for url in URLS:
         filename = url.split('/')[-1]
@@ -98,10 +102,11 @@ def main():
             
         payload = extract_payload_from_sb_json(sb_data)
         
-        yaml_path = f"{name_no_ext}.yaml"
+        yaml_filename = f"{name_no_ext}.yaml"
+        final_yaml_path = os.path.join(OUTPUT_DIR, "yaml", yaml_filename)
         yaml_data = {"payload": payload}
         
-        with open(yaml_path, 'w', encoding='utf-8') as f:
+        with open(final_yaml_path, 'w', encoding='utf-8') as f:
             yaml.dump(yaml_data, f)
             
         # 4. Compile YAML -> .mrs (mihomo)
@@ -110,7 +115,7 @@ def main():
         
         # mihomo convert-ruleset <type> <input> <output>
         try:
-            subprocess.run(["mihomo", "convert-ruleset", rule_type, "yaml", yaml_path, output_path], check=True)
+            subprocess.run(["mihomo", "convert-ruleset", rule_type, "yaml", final_yaml_path, output_path], check=True)
             print(f"Successfully converted to {output_path}")
         except FileNotFoundError:
              print("Error: mihomo executable not found.")
@@ -122,7 +127,7 @@ def main():
         # Cleanup temp files
         if os.path.exists(srs_path): os.remove(srs_path)
         if os.path.exists(json_path): os.remove(json_path)
-        if os.path.exists(yaml_path): os.remove(yaml_path)
+        # Yaml file kept in releases folder
 
 if __name__ == "__main__":
     main()

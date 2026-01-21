@@ -53,8 +53,11 @@ jobs:
       - name: Run Conversion Script
         run: python scripts/convert.py
 
-      - name: Commit and Push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: update mrs rulesets [skip ci]"
-          file_pattern: "releases/*.mrs"
+      - name: Push to release branch
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: release
+          FOLDER: releases
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: "chore: update rulesets [skip ci]"
