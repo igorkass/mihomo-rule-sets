@@ -27,25 +27,19 @@ jobs:
         run: |
           VERSION=$(curl -s "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
           echo "Installing sing-box v$VERSION"
-          wget "https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/sing-box-${VERSION}-linux-amd64.tar.gz"
-          tar -xzf "sing-box-${VERSION}-linux-amd64.tar.gz"
-          sudo mv sing-box-${VERSION}-linux-amd64/sing-box /usr/local/bin/
-          rm -rf sing-box*
+          wget -q "https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/sing-box-${VERSION}-linux-amd64.tar.gz"
+          tar -xzf sing-box-*.tar.gz
+          sudo mv sing-box-*/sing-box /usr/local/bin/
+          rm -rf sing-box-*
 
       - name: Install Mihomo
         run: |
-          # Mihomo uses pre-releases often, but let's try to get a recent compatible binary.
-          # We filter for linux-amd64-compatible (often most stable) or just linux-amd64.
-          # The API response structure for releases might vary, using a direct grep approach on the latest release assets.
           DOWNLOAD_URL=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | grep "browser_download_url" | grep "linux-amd64-compatible" | head -n 1 | cut -d '"' -f 4)
-          
-          # Fallback if compatible not found
           if [ -z "$DOWNLOAD_URL" ]; then
             DOWNLOAD_URL=$(curl -s "https://api.github.com/repos/MetaCubeX/mihomo/releases/latest" | grep "browser_download_url" | grep "linux-amd64" | head -n 1 | cut -d '"' -f 4)
           fi
-
-          echo "Downloading Mihomo from $DOWNLOAD_URL"
-          wget -O mihomo.gz "$DOWNLOAD_URL"
+          echo "Installing Mihomo from $DOWNLOAD_URL"
+          wget -qO mihomo.gz "$DOWNLOAD_URL"
           gunzip mihomo.gz
           chmod +x mihomo
           sudo mv mihomo /usr/local/bin/

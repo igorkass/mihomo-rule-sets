@@ -3,7 +3,7 @@ import json
 import yaml
 import requests
 import subprocess
-import shutil
+
 
 # List of source URLs
 URLS = [
@@ -37,22 +37,16 @@ def extract_payload_from_sb_json(sb_json):
             if 'domain' in rule:
                 payload.extend(rule['domain'])
             if 'domain_suffix' in rule:
-                payload.extend([f"+.{d}" for d in rule['domain_suffix']])
+                for d in rule['domain_suffix']:
+                    if d.startswith('.'):
+                        # Already has leading dot: .android -> +.android
+                        payload.append(f"+{d}")
+                    else:
+                        # Normal suffix: google.com -> +.google.com
+                        payload.append(f"+.{d}")
             if 'domain_keyword' in rule:
-                 # Mihomo supports domain_keyword directly in payload list as string? 
-                 # Usually payload is mixed string list. 
-                 # For domain type: 'google.com' is exact, '+.google.com' is suffix, 'keyword' is keyword.
-                 # However, mihomo yaml usually expects just a list.
-                 # Let's check mihomo docs behavior. Typically domain_keyword in singbox matches keyword.
-                 # In Clash/Mihomo, 'DOMAIN-KEYWORD,google' is the rule. 
-                 # But for rule-set (binary), the payload is just a list of strings.
-                 # If it doesn't start with '+.', it might be treated as exact match.
-                 # Mihomo binary rule-set doesn't distinguish keyword easily in the simple string list format 
-                 # unless we use the extended YAML format (not just payload list).
-                 # However, for simplicity and common compatibility with these lists (usually domain lists), 
-                 # we will assume most are exact or suffix.
-                 # If keywords are critical, we might need a more complex transform.
-                 payload.extend(rule['domain_keyword'])
+                # Keywords are added as-is; mihomo treats them as exact match in binary ruleset
+                payload.extend(rule['domain_keyword'])
             
             # IP
             if 'ip_cidr' in rule:
@@ -86,7 +80,11 @@ def main():
         
         # 1. Download .srs
         srs_path = f"{name_no_ext}.srs"
-        download_file(url, srs_path)
+        try:
+            download_file(url, srs_path)
+        except requests.RequestException as e:
+            print(f"  Error downloading {filename}: {e}. Skipping.")
+            continue
         
         # 2. Decompile .srs -> .json (sing-box)
         json_path = f"{name_no_ext}.json"
