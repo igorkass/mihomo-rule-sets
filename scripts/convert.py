@@ -116,8 +116,8 @@ def main():
             subprocess.run(["mihomo", "convert-ruleset", rule_type, "yaml", final_yaml_path, output_path], check=True)
             print(f"Successfully converted to {output_path}")
         except FileNotFoundError:
-             print("Error: mihomo executable not found.")
-             return
+            print("Error: mihomo executable not found.")
+            return
         except subprocess.CalledProcessError as e:
              print(f"Error converting {filename}: {e}")
 

@@ -1,19 +1,20 @@
 # mihomo-rule-sets
 
-Этот репозиторий содержит автоматически обновляемые и конвертированные наборы правил (rulesets) для Mihomo/Clash Meta.
+## Что это?
 
-Исходные данные берутся из репозитория [runetfreedom/russia-v2ray-rules-dat](https://github.com/runetfreedom/russia-v2ray-rules-dat/tree/release/sing-box) и конвертируются из формата `srs` (sing-box) в `mrs` (mihomo/clash binary).
+Готовые наборы правил для Mihomo и Clash Meta в формате `.mrs`. Это автоматически обновляемая коллекция правил для обхода блокировок и фильтрации рекламы. Правила конвертируются из [runetfreedom/russia-v2ray-rules-dat](https://github.com/runetfreedom/russia-v2ray-rules-dat) (формат sing-box) в формат mihomo. Правила обновляются автоматически 4 раза в день (в 03:40, 09:40, 15:40 и 21:40 UTC) через GitHub Actions.
 
-Готовые файлы публикуются в ветку [release](https://github.com/igorkass/mihomo-rule-sets/tree/release).
+## Как использовать
 
-*   Бинарные файлы `.mrs` находятся в корне ветки `release`.
-*   YAML файлы для просмотра находятся в папке `yaml` ветки `release`.
+Файлы доступны в ветке [release](https://github.com/igorkass/mihomo-rule-sets/tree/release):
+- `.mrs` файлы — в корне ветки
+- `.yaml` файлы (для просмотра содержимого) — в папке `yaml`
 
-## Список правил
+### Для vpnbot
 
-Вы можете скопировать следующий блок в конфигурацию `Vless -> routes -> rulesset list`:
+Добавьте в `Routes → Ruleset`:
 
-```yaml
+```
 proxy:domain:86400:https://github.com/igorkass/mihomo-rule-sets/raw/release/geosite-ru-blocked.mrs,
 proxy:ipcidr:86400:https://github.com/igorkass/mihomo-rule-sets/raw/release/geoip-ru-blocked.mrs,
 proxy:domain:86400:https://github.com/igorkass/mihomo-rule-sets/raw/release/geosite-google.mrs,
@@ -25,6 +26,16 @@ proxy:ipcidr:86400:https://github.com/igorkass/mihomo-rule-sets/raw/release/geoi
 reject:domain:86400:https://github.com/igorkass/mihomo-rule-sets/raw/release/geosite-category-ads-all.mrs
 ```
 
-## Автоматическое обновление
+### Прямые ссылки
 
-Обновление происходит ежедневно в 04:00 UTC с помощью GitHub Actions.
+```
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geosite-ru-blocked.mrs
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geoip-ru-blocked.mrs
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geosite-google.mrs
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geoip-google.mrs
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geosite-meta.mrs
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geoip-facebook.mrs
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geosite-telegram.mrs
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geoip-telegram.mrs
+https://github.com/igorkass/mihomo-rule-sets/raw/release/geosite-category-ads-all.mrs
+```

@@ -2,7 +2,7 @@ name: Update Rule Sets
 
 on:
   schedule:
-    - cron: '0 4 * * *' # Run every day at 4 AM UTC
+    - cron: '40 3,9,15,21 * * *'
   workflow_dispatch: # Manual run
 
 jobs:
