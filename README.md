@@ -2,7 +2,7 @@
 
 ## Что это?
 
-Готовые наборы правил для Mihomo и Clash Meta в формате `.mrs`. Это автоматически обновляемая коллекция правил для обхода блокировок и фильтрации рекламы. Правила конвертируются из [runetfreedom/russia-v2ray-rules-dat](https://github.com/runetfreedom/russia-v2ray-rules-dat) (формат sing-box) в формат mihomo. Правила обновляются автоматически каждые 6 часов через GitHub Actions.
+Готовые наборы правил для Mihomo и Clash Meta в формате `.mrs`. Это автоматически обновляемая коллекция правил для обхода блокировок и фильтрации рекламы. Правила конвертируются из [runetfreedom/russia-v2ray-rules-dat](https://github.com/runetfreedom/russia-v2ray-rules-dat) (формат sing-box) в формат mihomo. Правила обновляются автоматически каждые 6 часов.
 
 ## Как использовать
 
