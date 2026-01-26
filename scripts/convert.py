@@ -15,7 +15,8 @@ URLS = [
     "https://raw.githubusercontent.com/runetfreedom/russia-v2ray-rules-dat/release/sing-box/rule-set-geoip/geoip-facebook.srs",
     "https://raw.githubusercontent.com/runetfreedom/russia-v2ray-rules-dat/release/sing-box/rule-set-geosite/geosite-telegram.srs",
     "https://raw.githubusercontent.com/runetfreedom/russia-v2ray-rules-dat/release/sing-box/rule-set-geoip/geoip-telegram.srs",
-    "https://raw.githubusercontent.com/runetfreedom/russia-v2ray-rules-dat/release/sing-box/rule-set-geosite/geosite-category-ads-all.srs"
+    "https://raw.githubusercontent.com/burjuyz/RuRulesets/main/ruleset-domain-adaway_alive_hosts_mail_fb.srs",
+    "https://raw.githubusercontent.com/burjuyz/RuRulesets/main/ruleset-domain-oisd_big.srs"
 ]
 
 OUTPUT_DIR = "releases"
@@ -74,7 +75,7 @@ def main():
         name_no_ext = os.path.splitext(filename)[0]
         
         # Determine type based on filename
-        rule_type = "domain" if "geosite" in filename else "ipcidr"
+        rule_type = "domain" if "geosite" in filename or "domain" in filename else "ipcidr"
         
         print(f"Processing {filename} as {rule_type}...")
         
